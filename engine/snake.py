@@ -11,7 +11,8 @@ def getPosition(origin, destination, distance):
 	dx = destination.x - origin.x;
 	dy = destination.y - origin.y;
 	alpha = math.atan2(dy,dx);
-	rotation = ( math.pi + alpha ) * 180 / math.pi;
+	#rotation = ( math.pi + alpha ) * 180 / math.pi;
+	rotation = math.atan2(origin.y-destination.y, origin.x-destination.x) * 180 / math.pi
 	
 	# New Pos at set distance
 	return (
@@ -34,11 +35,13 @@ import pygame
 
 def drawSnake(screen, snake):
 
-	for joint in snake.all_joints:
-		pygame.draw.circle(screen, (0, 255,0), (joint.x, joint.y), 10, 0)
-
-
 	head = snake.all_joints[len(snake.all_joints) -1]
+	for joint in snake.all_joints:
+		if joint == head: continue
+
+		pygame.draw.circle(screen, (0, 255,0), (joint.x, joint.y), 10, 0)
+		snake.drawSnake.drawBody(screen, (joint.x, joint.y), joint.rotation)
+	
 	pygame.draw.circle(screen, (255, 0,0), (head.x, head.y), 10, 0)
 	snake.drawSnake.drawHead(screen, (head.x, head.y), head.rotation)
 
@@ -49,7 +52,7 @@ class Snake:
 
 	"""
 
-	SegmentDistance = 60
+	SegmentDistance = 50
 
 	def __init__(self, position):
 		# This includes head, segements and tail.
@@ -59,7 +62,7 @@ class Snake:
 
 		self.x, self.y = position
 		self.new_segment()
-		for x in xrange(0, 20):
+		for x in xrange(0, 9):
 			self.new_segment()
 
 		# The segments that build up the head to the tail.
