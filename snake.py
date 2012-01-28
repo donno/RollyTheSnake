@@ -13,7 +13,6 @@ class Snake(pygame.sprite.Sprite):
 
 	def draw(self, screen):
 		pygame.sprite.RenderPlain((self)).draw(screen) #magic
-		pygame.display.flip()
 
 	def move(self, x, y):
 		self.x_speed += x

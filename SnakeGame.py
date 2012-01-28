@@ -46,10 +46,9 @@ def main():
 				break
 			game.onEvent(event)
 
-		renderhud(screen)
 		game.onUpdate()
 		game.onRender(screen)
-
+		renderhud(screen)
 		pygame.display.flip()
 
 	pygame.quit()
