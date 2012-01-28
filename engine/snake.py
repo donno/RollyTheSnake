@@ -4,6 +4,8 @@
 
 import math
 
+import drawablesnake
+
 def getPosition(origin, destination, distance):
 	# Calc Angle
 	dx = destination.x - origin.x;
@@ -17,7 +19,6 @@ def getPosition(origin, destination, distance):
 		int( origin.y + math.sin(alpha) * distance ),
 		rotation
 		)
-
 
 class Joint:
 	def __init__(self, x, y, distance):
@@ -37,6 +38,11 @@ def drawSnake(screen, snake):
 		pygame.draw.circle(screen, (0, 255,0), (joint.x, joint.y), 10, 0)
 
 
+	head = snake.all_joints[len(snake.all_joints) -1]
+	pygame.draw.circle(screen, (255, 0,0), (head.x, head.y), 10, 0)
+	snake.drawSnake.drawHead(screen, (head.x, head.y), head.rotation)
+
+
 class Snake:
 	"""
 		A snake has at least two components: the head and the tail.
@@ -48,6 +54,8 @@ class Snake:
 	def __init__(self, position):
 		# This includes head, segements and tail.
 		self.all_joints = []
+
+		self.drawSnake = drawablesnake.DrawableSnake()
 
 		self.x, self.y = position
 		self.new_segment()
@@ -73,14 +81,20 @@ class Snake:
 		# Replace this with the correct code / instance
 		drawSnake(screen, self)
 
-
 	def update(self, timeSinceLastUpdate):
 		self.x += self.x_velocity
 		self.y += self.y_velocity
 
 
-		for i in xrange(0, len(self.all_joints) - 1):
+
+		jointCount = len(self.all_joints)
+		for i in xrange(0, jointCount - 1):
 			self.all_joints[i].setPosition(getPosition(self.all_joints[i+1], self.all_joints[i], Snake.SegmentDistance))
 
-		self.all_joints[len(self.all_joints)-1].x = self.x
-		self.all_joints[len(self.all_joints)-1].y = self.y
+
+		rotation =  (math.pi + math.atan2(
+			self.all_joints[jointCount-2].y -self.y ,
+			self.all_joints[jointCount-2].x - self.x )) * 180 / math.pi;
+		self.all_joints[jointCount-1].x = self.x
+		self.all_joints[jointCount-1].y = self.y
+		self.all_joints[len(self.all_joints)-1].rotation = rotation
