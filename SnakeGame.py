@@ -20,7 +20,7 @@ def renderHud():
 	authorsRect.y = authorsY
 	del authorsY
 	offset = 10
-
+	
 	def _renderHud(screen):
 		nameRect.x = screen.get_rect().width - nameRect.width - offset
 		authorsRect.x = screen.get_rect().width - authorsRect.width - offset
@@ -39,6 +39,7 @@ def main():
 	pygame.display.set_caption(__NAME__)
 	isRunning = True
 	renderhud = renderHud()
+	clock = pygame.time.Clock()
 	while isRunning:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -50,6 +51,7 @@ def main():
 		game.onRender(screen)
 		renderhud(screen)
 		pygame.display.flip()
+		clock.tick(100)
 
 	pygame.quit()
 
