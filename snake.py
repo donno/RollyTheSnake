@@ -10,11 +10,11 @@ class Snake(pygame.sprite.Sprite):
 		self.rect.topleft = initPos
 		self.x_speed = 0
 		self.y_speed = 0
-"""
+
 	def draw(self, screen):
 		pygame.sprite.RenderPlain((self)).draw(screen) #magic
 		pygame.display.flip()
-"""
+
 	def move(self, x, y):
 		self.x_speed += x
 		self.y_speed += y

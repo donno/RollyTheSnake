@@ -21,13 +21,13 @@ def renderHud():
 	del authorsY
 	offset = 10
 
-	def _renderHub(screen):
+	def _renderHud(screen):
 		nameRect.x = screen.get_rect().width - nameRect.width - offset
 		authorsRect.x = screen.get_rect().width - authorsRect.width - offset
 		screen.blit(nameSurface, nameRect)
 		screen.blit(authorSurface, authorsRect)
 
-	return _renderHub
+	return _renderHud
 
 def main():
 	pygame.init()
