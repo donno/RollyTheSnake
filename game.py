@@ -25,8 +25,9 @@ class Game:
                                 self.player.move(0,3)
                         if event.key == pygame.K_DOWN:
                                 self.player.move(0,-3)
-		self.player.update(0)
-
+		
+        def onUpdate(self):
+                self.player.update(0)
 	def onRender(self, screen):
 		screen.fill((0,0,0))
 		self.player.draw(screen)	

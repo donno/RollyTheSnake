@@ -19,8 +19,6 @@ class Snake(pygame.sprite.Sprite):
 		self.x_speed += x
 		self.y_speed += y
 
-
 	def update(self, timeSinceLastUpdate):
 		self.rect.top += self.y_speed
 		self.rect.left += self.x_speed
-
