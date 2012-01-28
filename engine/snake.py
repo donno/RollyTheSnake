@@ -69,25 +69,37 @@ class Snake:
 		self.segments = []
 
 		# The velocity the snake is traveling in X and Y.
+		#don't use this
 		self.x_velocity = 0
 		self.y_velocity = 0
+		# The direction the head is travelling
+		self.direction = math.pi
+		# The current speed
+		self.speed = 1
+		# the top speed
+		self.topspeed = 15
 
 	def new_segment(self):
 		self.all_joints.append(Joint(self.x, self.y, Snake.SegmentDistance))
 
-	def move(self, x, y):
-		self.x_velocity += x
-		self.y_velocity += y
+	def move(self, theta):
+		self.direction += theta
 
+	def changespeed(self, vel):
+		if self.speed + vel > 0 and self.speed + vel < self.topspeed:
+			self.speed += vel
 
 	def draw(self, screen):
 		# Replace this with the correct code / instance
 		drawSnake(screen, self)
 
 	def update(self, timeSinceLastUpdate):
-		self.x += self.x_velocity
-		self.y += self.y_velocity
-
+		dx = self.speed*math.cos(self.direction)
+		dy = self.speed*math.sin(self.direction)
+		print dx
+		print dy
+		self.x += int(dx)
+		self.y += int(dy)
 
 
 		jointCount = len(self.all_joints)

@@ -13,22 +13,22 @@ class Game:
 	def onEvent(self, event):
                 if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
-                                self.player.move(-3,0)
+                                self.player.move(0.5)
                         if event.key == pygame.K_RIGHT:
-                                self.player.move(3,0)
+                                self.player.move(-0.5)
                         if event.key == pygame.K_UP:
-                                self.player.move(0,-3)
+                                self.player.changespeed(3)
                         if event.key == pygame.K_DOWN:
-                                self.player.move(0,3)
+                                self.player.changespeed(-3)
                 elif event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT:
-                                self.player.move(3,0)
+                                self.player.move(-0.5)
                         if event.key == pygame.K_RIGHT:
-                                self.player.move(-3,0)
+                                self.player.move(0.5)
                         if event.key == pygame.K_UP:
-                                self.player.move(0,3)
+                                self.player.changespeed(-3)
                         if event.key == pygame.K_DOWN:
-                                self.player.move(0,-3)
+                                self.player.changespeed(3)
 		
         def onUpdate(self):
                 self.player.update(0)
