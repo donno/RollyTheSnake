@@ -35,7 +35,7 @@ class Mouse:
 
     @property
     def rect(self):
-        size = 20
+        size = self.image.get_rect().width - 3 # 3 for the transparency
         return pygame.Rect(self.x - size, self.y - size/2, size, size)
 
     def __init__(self, x, y):
