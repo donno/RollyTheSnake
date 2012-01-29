@@ -70,9 +70,9 @@ class Game:
 				self.player.changespeed(3)
 			if event.key == pygame.K_DOWN:
 				self.player.changespeed(-3)
-			if event.key == pygame.K_s:
+			#if event.key == pygame.K_s:
 				# Spawn a mouse
-				self.spawnMouse()
+				#self.spawnMouse()
 			if event.key == pygame.K_SPACE:
 				# Open the snakes mouth.
 				if not self.player.mouthOpen:
