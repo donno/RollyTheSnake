@@ -42,6 +42,7 @@ class Mouse:
             }
 
         self.__class__ = mouseTypes[self.type]
+        self.__class__.__init__(self, x, y)
 
     def update(self):
         #self.updateFunction(self)
@@ -54,7 +55,7 @@ class Mouse:
 class MouseNormal(Mouse):
     SafeToEat = True
     def __init__(self, x, y):
-        Mouse.__init__(self, x, y)
+        #Mouse.__init__(self, x, y)
         self.direction = 0
         self.running = False
         self.runDist = 0
@@ -64,15 +65,19 @@ class MouseNormal(Mouse):
 
     def update(self):
         if random.randint(0,150) == 1:
-            self.direction = random.randrange(0,2*math.pi)
+            self.direction = (math.pi/180)*(random.randrange(0,359))
             self.running = True
         if self.running:
-            dx = int(10*math.cos(self.direction))
-            dy = int(10*math.sin(self.direction))
+            dx = int(5*math.cos(self.direction))
+            dy = int(5*math.sin(self.direction))
             if self.x + dx > 50 and self.x +dx < 1024 - 50 :   #hard coded screen size
-                self.x += dx
-            if self.y + dy > 50 and self.y +dy < 600 - 50 :   #hard coded screen size
-                self.y += dy
+                if self.y + dy > 50 and self.y +dy < 600 - 50 :   #hard coded screen size
+                    self.x += dx
+                    self.y += dy
+            self.runDist += 10
+            if self.runDist > 150:
+                self.running = False
+                self.runDist = 0
 
 class MouseZombie(Mouse):
     SafeToEat = False
