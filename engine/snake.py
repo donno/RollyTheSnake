@@ -24,7 +24,6 @@ class Joint:
 			previousJoint.y-self.y,
 			previousJoint.x-self.x) * 180 / math.pi
 
-
 import pygame
 import drawablesnake
 
@@ -37,6 +36,8 @@ def drawSnake(screen, snake):
 		if joint == head: continue
 
 		snake.drawSnake.drawBody(screen, (joint.x % screenRect.width, joint.y % screenRect.height), joint.rotation)
+
+	#pygame.draw.rect(screen, (255, 0,0), snake.tail) #, 10, 0)
 
 	x = head.x% screenRect.width
 	y = head.y% screenRect.height
@@ -123,6 +124,15 @@ class Snake:
 		x = head.x% width
 		y = head.y% height
 		return (x, y)
+
+	@property
+	def tail(self):
+		# screenResize should be called first...
+		tail =  self.all_joints[0]
+		width, height = self.screenSize
+		x = tail.x % width
+		y = tail. y% height
+		return pygame.Rect(x-15, y-15, 30, 30) 
 
 	def update(self, timeSinceLastUpdate):
 		dx = self.speed*math.cos(self.direction)
