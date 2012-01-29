@@ -113,12 +113,10 @@ class Game:
 		if self.timeSinceSpawn >= self.spawnTime:
 			self.spawnMouse()
 			self.timeSinceSpawn = 0
-		if self.spawnTime > 10:
+		if self.spawnTime > 50:
 			if random.randint(0,50) == 1:
 				self.spawnTime -= 1
-		print self.spawnTime
 		self.timeSinceSpawn += 1
-		print self.timeSinceSpawn,"bah"
 
 
 	def onRender(self, screen):
