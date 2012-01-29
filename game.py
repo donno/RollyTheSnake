@@ -100,7 +100,7 @@ class Game:
 
 		self.check_mice()
 
-		if self.player.mouthOpen and len(sef.player.all_joints) > 5:
+		if self.player.mouthOpen and len(self.player.all_joints) > 5:
 			if self.player.tail.collidepoint(self.player.mouth):
 				
 				self.player.score += 9001
