@@ -36,12 +36,14 @@ def drawSnake(screen, snake):
 	for joint in snake.all_joints:
 		if joint == head: continue
 
-		pygame.draw.circle(screen, (0, 255,0), (joint.x, joint.y), 10, 0)
 		snake.drawSnake.drawBody(screen, (joint.x % screenRect.width, joint.y % screenRect.height), joint.rotation)
 
-	pygame.draw.circle(screen, (255, 0,0), (head.x, head.y), 10, 0)
-	snake.drawSnake.drawHead(screen, (head.x% screenRect.width, head.y% screenRect.height), head.rotation)
+	x = head.x% screenRect.width
+	y = head.y% screenRect.height
+	snake.drawSnake.drawHead(screen, (x% screenRect.width, y% screenRect.height), head.rotation)
 
+	# Disable this circle
+	pygame.draw.circle(screen, (255, 0,0), (x%screenRect.width, y%screenRect.width), 10, 0)
 
 class Snake:
 	"""
@@ -53,18 +55,14 @@ class Snake:
 	SegmentDistance = 50
 
 	def __init__(self, position):
-		# This includes head, segements and tail.
+		# This includes head, middle and tail.
 		self.all_joints = []
 
 		self.drawSnake = drawablesnake.DrawableSnake()
 
 		self.x, self.y = position
-		self.new_segment()
-		for x in xrange(0, 9):
-			self.new_segment()
-
-		# The segments that build up the head to the tail.
-		self.segments = []
+		self.new_segment() # Head
+		self.new_segment() # Tail
 
 		# The velocity the snake is traveling in X and Y.
 		#don't use this
@@ -77,8 +75,19 @@ class Snake:
 		# the top speed
 		self.topspeed = 15
 
+		# The score the snake has.
+		self.score = 0
+
 	def new_segment(self):
 		self.all_joints.append(Joint(self.x, self.y, Snake.SegmentDistance))
+
+	def eat_mouse(self, safeToEat):
+		if safeToEat:
+			self.new_segment()
+			self.score += 5
+		else:
+			# loose a segment
+			pass
 
 	def move(self, theta):
 		self.direction += theta
@@ -90,6 +99,18 @@ class Snake:
 	def draw(self, screen):
 		# Replace this with the correct code / instance
 		drawSnake(screen, self)
+
+	def screenResize(self, size):
+		self.screenSize = size
+
+	@property
+	def mouth(self):
+		# screenResize should be called first...
+		head = self.all_joints[len(self.all_joints) -1]
+		width, height = self.screenSize
+		x = head.x% width
+		y = head.y% height
+		return (x, y)
 
 	def update(self, timeSinceLastUpdate):
 		dx = self.speed*math.cos(self.direction)
