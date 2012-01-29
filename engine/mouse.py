@@ -3,6 +3,14 @@ import math
 import random
 import pygame
 
+import os.path
+
+def path(*args):
+	"""Helper function for returning the path to an asset"""
+	# Example: path('subfolder', 'image.jpg')
+	return os.path.join('assets', *args)
+
+
 def determineType():
     # Mouse weighting
     chances = {
@@ -48,20 +56,28 @@ class Mouse:
         #self.updateFunction(self)
         pass
 
-    # The Mouse class is abstract as such children of this class are
-    # responsible of providing the draw method.
-    # def draw(self, screen):
+    def draw(self, screen):
+        if not self.image: return
+
+        pygame.draw.circle(screen, (255, 0, 0), (self.x, self.y), 10, 0)
+
+        imageRect = self.image.get_rect()
+        dest = pygame.Rect(self.x - imageRect.center[0], self.y - imageRect.center[1],
+            imageRect.width, imageRect.height)
+        screen.blit(self.image, dest)
 
 class MouseNormal(Mouse):
     SafeToEat = True
+    
+    Image1 = pygame.image.load(path('mouse1.png')) 
+    Image2 = pygame.image.load(path('mouse2.png')) 
+
     def __init__(self, x, y):
         #Mouse.__init__(self, x, y)
         self.direction = 0
         self.running = False
         self.runDist = 0
-
-    def draw(self, screen):
-        pygame.draw.circle(screen, (255, 0, 0), (self.x, self.y), 10, 0)
+        self.image = self.Image1
 
     def update(self):
         if random.randint(0,150) == 1:
@@ -81,12 +97,12 @@ class MouseNormal(Mouse):
 
 class MouseZombie(Mouse):
     SafeToEat = False
-    def __init__(self, x, y):
-        Mouse.__init__(self, x, y)
+    
+    Image1 = pygame.image.load(path('zmouse1.png')) 
+    Image2 = pygame.image.load(path('zmouse2.png')) 
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, (0, 0, 255), (self.x, self.y), 10, 0)
+    def __init__(self, x, y):
+        self.image = self.Image1
 
     def update(self):
         pass
-
