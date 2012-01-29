@@ -40,7 +40,8 @@ class Game:
 		self.rightPressed = False
 		self.screenSize = None
 		self.mice = []
-
+		self.spawnTime = 300
+		self.timeSinceSpawn = 280
 
 		self.background = pygame.image.load(path('background.jpg'))
 		self.hud = Hud(title)
@@ -103,6 +104,15 @@ class Game:
 			self.mouthTimeOut -= 1
 			if self.mouthTimeOut == 0:
 				self.player.mouthOpen = False
+		self.timeSinceSpawn += 1
+		if self.timeSinceSpawn == self.spawnTime:
+			self.spawnMouse()
+			self.timeSinceSpawn = 0
+			if self.spawnTime > 50:
+				if random.randint(0,200) == 1:
+					self.spawnTime -= 1
+
+
 
 	def onRender(self, screen):
 		# Clear the whole screen
