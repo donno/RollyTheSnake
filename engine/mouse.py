@@ -3,14 +3,6 @@ import math
 import random
 import pygame
 
-def normalMouseUpdate(mouse):
-    mouse.x += random.randint(-6, 6)
-    mouse.y += random.randint(-6, 6)
-
-
-def zombieMouseUpdate(mouse):
-    pass
-
 def determineType():
     # Mouse weighting
     chances = {
@@ -34,6 +26,11 @@ class Mouse:
     Normal = 0
     Zombie = 1
 
+    @property
+    def rect(self):
+        size = 20
+        return pygame.Rect(self.x - size, self.y - size/2, size, size)
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -45,7 +42,6 @@ class Mouse:
             }
 
         self.__class__ = mouseTypes[self.type]
-        #self. = Mouse.MoveMap[self.type]
 
     def update(self):
         #self.updateFunction(self)
@@ -56,6 +52,7 @@ class Mouse:
     # def draw(self, screen):
 
 class MouseNormal(Mouse):
+    SafeToEat = True
     def __init__(self, x, y):
         Mouse.__init__(self, x, y)
         self.direction = 0
@@ -78,6 +75,7 @@ class MouseNormal(Mouse):
                 self.y += dy
 
 class MouseZombie(Mouse):
+    SafeToEat = False
     def __init__(self, x, y):
         Mouse.__init__(self, x, y)
 
@@ -85,4 +83,5 @@ class MouseZombie(Mouse):
         pygame.draw.circle(screen, (0, 0, 255), (self.x, self.y), 10, 0)
 
     def update(self):
+        pass
 
