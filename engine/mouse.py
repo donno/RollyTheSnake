@@ -10,7 +10,6 @@ def path(*args):
 	# Example: path('subfolder', 'image.jpg')
 	return os.path.join('assets', *args)
 
-
 def determineType():
     # Mouse weighting
     chances = {

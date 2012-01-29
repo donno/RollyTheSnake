@@ -43,7 +43,7 @@ def drawSnake(screen, snake):
 	snake.drawSnake.drawHead(screen, (x% screenRect.width, y% screenRect.height), head.rotation)
 
 	# Disable this circle
-	pygame.draw.circle(screen, (255, 0,0), (x%screenRect.width, y%screenRect.width), 10, 0)
+	#pygame.draw.circle(screen, (255, 0,0), (x%screenRect.width, y%screenRect.width), 10, 0)
 
 class Snake:
 	"""
