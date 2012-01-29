@@ -55,8 +55,8 @@ class Game:
 		# place the mouse.
 
 		position = (400, 300) if not self.screenSize else (
-			random.randint(0, self.screenSize[0]),
-			random.randint(0, self.screenSize[1]))
+			random.randint(50, self.screenSize[0]-50),
+			random.randint(50, self.screenSize[1]-50))
 
 		self.mice.append( engine.mouse.Mouse(*position) )
 
