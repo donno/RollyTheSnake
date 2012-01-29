@@ -77,8 +77,10 @@ class MouseNormal(Mouse):
         self.running = False
         self.runDist = 0
         self.image = random.choice([self.Image1, self.Image2])
+        self.count = 0
 
     def update(self):
+        self.count += 1
         if random.randint(0,150) == 1:
             self.direction = (math.pi/180)*(random.randrange(0,359))
             self.running = True

@@ -99,8 +99,13 @@ class Snake:
 		else:
 			# You still get damanged by zombie mouse reguardless if you had
 			# your mouth open or not.
-			self.remove_segment()
-			self.score -= 2
+			if self.mouthOpen:
+				for i in range(1,10):
+					self.remove_segment()
+				self.score -= 1000
+			else:
+				self.remove_segment()
+				self.score -= 2
 
 	def move(self, theta):
 		self.direction += theta

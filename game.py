@@ -103,7 +103,7 @@ class Game:
 		if self.player.mouthOpen and len(self.player.all_joints) > 5:
 			if self.player.tail.collidepoint(self.player.mouth):
 				
-				self.player.score += 901
+				self.player.score += 10
 
 
 		if self.player.mouthOpen:
@@ -138,9 +138,8 @@ class Game:
 	def check_mice(self):
 		aliveMice = []
 		for mouse in self.mice:
-			if hasattr(mouse,"count"):
-				if mouse.count > 2000:
-					continue
+			if mouse.count > 2000:
+				continue
 			# Test if its colliding with the nose of the snake.
 			if mouse.rect.collidepoint(self.player.mouth):
 				# TODO: Handle zombie mouse.
