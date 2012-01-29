@@ -1,23 +1,20 @@
 
-__AUTHORS__ = ['Donno', 'Hattiel', 'Shrubber']
-
 import pygame
 import engine.snake
 import engine.mouse
+import os.path
 import random
+
+def path(*args):
+	"""Helper function for returning the path to an asset"""
+	# Example: path('subfolder', 'image.jpg')	
+	return os.path.join('assets', *args)
 
 class Hud:
 	def __init__(self, title):
 		fontName = pygame.font.get_default_font()
 		font = pygame.font.Font(fontName, 14)
 		colour = (0, 0, 255)
-
-		self.nameSurface = font.render(title, False, colour)
-		self.nameRect = self.nameSurface.get_rect()
-		self.authorSurface = font.render(', '.join(__AUTHORS__), False, colour)
-		authorsY = self.nameRect.y + self.nameRect.height + 5
-		self.authorsRect = self.authorSurface.get_rect()
-		self.authorsRect.y = authorsY
 
 		self.hudRect = (0, 0, 400, 38)
 		self.scoreFont = font = pygame.font.Font(fontName, 28)
@@ -26,8 +23,6 @@ class Hud:
 
 	def draw(self, screen, score):
 		offset = 10
-		self.nameRect.x = screen.get_rect().width - self.nameRect.width - offset
-		self.authorsRect.x = screen.get_rect().width - self.authorsRect.width - offset
 		screen.fill(
 			( 38, 38, 38, 28),
 			self.hudRect,
@@ -36,8 +31,6 @@ class Hud:
 		scoreSurface = self.scoreFont.render('Score: %d' % score, False, (240,240,240))
 		# Could add some padding around the score.
 		screen.blit(scoreSurface, scoreSurface.get_rect())
-		screen.blit(self.nameSurface, self.nameRect)
-		screen.blit(self.authorSurface, self.authorsRect)
 
 class Game:
 	def __init__(self, title):
@@ -48,6 +41,8 @@ class Game:
 		self.screenSize = None
 		self.mice = []
 
+
+		self.background = pygame.image.load(path('background.jpg'))
 		self.hud = Hud(title)
 
 	def spawnMouse(self):
@@ -113,6 +108,7 @@ class Game:
 		# Clear the whole screen
 		screen.fill((0,0,0))
 
+		screen.blit(self.background, screen.get_rect())
 		# Draw the player (snake)
 		self.player.draw(screen)
 
