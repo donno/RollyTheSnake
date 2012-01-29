@@ -5,21 +5,6 @@
 # Some helper functions and classes for dealing with managing the tail.
 import math
 
-def getPosition(origin, destination, distance):
-	# Calc Angle
-	dx = destination.x - origin.x;
-	dy = destination.y - origin.y;
-	alpha = math.atan2(dy,dx);
-	#rotation = ( math.pi + alpha ) * 180 / math.pi
-	rotation = math.atan2(origin.y-destination.y, origin.x-destination.x) * 180 / math.pi
-
-	# Returns the new postion and the rotation.
-	return (
-		int( origin.x + math.cos(alpha) * distance ),
-		int( origin.y + math.sin(alpha) * distance ),
-		rotation
-		)
-
 class Joint:
 	def __init__(self, x, y, distance):
 		self.x = x
@@ -27,8 +12,18 @@ class Joint:
 		self.distance = distance
 		self.rotation = 0
 
-	def setPosition(self, position):
-		self.x, self.y, self.rotation = position
+	def updatePosition(self, previousJoint, distance):
+		# Calculate the angle.
+		dx = self.x - previousJoint.x
+		dy = self.y - previousJoint.y
+		alpha = math.atan2(dy,dx)
+
+		self.x = int( previousJoint.x + math.cos(alpha) * distance )
+		self.y = int( previousJoint.y + math.sin(alpha) * distance )
+		self.rotation = math.atan2(
+			previousJoint.y-self.y,
+			previousJoint.x-self.x) * 180 / math.pi
+
 
 import pygame
 import drawablesnake
@@ -105,7 +100,8 @@ class Snake:
 
 		jointCount = len(self.all_joints)
 		for i in xrange(0, jointCount - 1):
-			self.all_joints[i].setPosition(getPosition(self.all_joints[i+1], self.all_joints[i], Snake.SegmentDistance))
+			self.all_joints[i].updatePosition(
+				self.all_joints[i+1], Snake.SegmentDistance)
 
 		rotation =  (math.pi + math.atan2(
 			self.all_joints[jointCount-2].y -self.y ,
