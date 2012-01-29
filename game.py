@@ -62,6 +62,7 @@ class Game:
 
 	def onResize(self, size):
 		self.screenSize = size
+		self.player.screenResize(size)
 
 	def onEvent(self, event):
 		if event.type == pygame.KEYDOWN:
@@ -96,6 +97,8 @@ class Game:
 		for mouse in self.mice:
 			mouse.update()
 
+		self.check_mice()
+
 	def onRender(self, screen):
 		# Clear the whole screen
 		screen.fill((0,0,0))
@@ -108,4 +111,17 @@ class Game:
 			mouse.draw(screen)
 
 		# Render the heads up display
-		self.hud.draw(screen, 0)
+		self.hud.draw(screen, self.player.score)
+
+	# Check if the snake is colliding with any mice.
+	def check_mice(self):
+		aliveMice = []
+		for mouse in self.mice:
+			# Test if its colliding with the nose of the snake.
+			if mouse.rect.collidepoint(self.player.mouth):
+				# TODO: Handle zombie mouse.
+				self.player.eat_mouse(safeToEat=True)
+			else:
+				# This mouse is still alive.
+				aliveMice.append(mouse)
+		self.mice = aliveMice
