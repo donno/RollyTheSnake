@@ -2,19 +2,18 @@
 	Snake - Represents the data for the Snake object.
 """
 
+# Some helper functions and classes for dealing with managing the tail.
 import math
-
-import drawablesnake
 
 def getPosition(origin, destination, distance):
 	# Calc Angle
 	dx = destination.x - origin.x;
 	dy = destination.y - origin.y;
 	alpha = math.atan2(dy,dx);
-	#rotation = ( math.pi + alpha ) * 180 / math.pi;
+	#rotation = ( math.pi + alpha ) * 180 / math.pi
 	rotation = math.atan2(origin.y-destination.y, origin.x-destination.x) * 180 / math.pi
-	
-	# New Pos at set distance
+
+	# Returns the new postion and the rotation.
 	return (
 		int( origin.x + math.cos(alpha) * distance ),
 		int( origin.y + math.sin(alpha) * distance ),
@@ -32,24 +31,28 @@ class Joint:
 		self.x, self.y, self.rotation = position
 
 import pygame
+import drawablesnake
 
 def drawSnake(screen, snake):
+	screenRect = screen.get_rect()
 
 	head = snake.all_joints[len(snake.all_joints) -1]
+
 	for joint in snake.all_joints:
 		if joint == head: continue
 
 		pygame.draw.circle(screen, (0, 255,0), (joint.x, joint.y), 10, 0)
-		snake.drawSnake.drawBody(screen, (joint.x, joint.y), joint.rotation)
-	
+		snake.drawSnake.drawBody(screen, (joint.x % screenRect.width, joint.y % screenRect.height), joint.rotation)
+
 	pygame.draw.circle(screen, (255, 0,0), (head.x, head.y), 10, 0)
-	snake.drawSnake.drawHead(screen, (head.x, head.y), head.rotation)
+	snake.drawSnake.drawHead(screen, (head.x% screenRect.width, head.y% screenRect.height), head.rotation)
 
 
 class Snake:
 	"""
-		A snake has at least two components: the head and the tail.
+		A snake has at least two segments the head and the tail.
 
+		The head is the last segment (joint)
 	"""
 
 	SegmentDistance = 50

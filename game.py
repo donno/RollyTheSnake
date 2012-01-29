@@ -8,6 +8,9 @@ class Game:
 		self.leftPressed = False
 		self.rightPressed = False
 
+	def onResize(self, size):
+		pass
+
 	def onEvent(self, event):
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT:
@@ -29,11 +32,11 @@ class Game:
 				self.player.changespeed(3)
 
 	def onUpdate(self):
-		self.player.update(0)
 		if self.leftPressed:
 			self.player.move(-0.04)
 		if self.rightPressed:
 			self.player.move(0.04)
+		self.player.update(0)
 
 	def onRender(self, screen):
 		screen.fill((0,0,0))

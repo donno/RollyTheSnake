@@ -40,6 +40,7 @@ def main():
 	isRunning = True
 	renderhud = renderHud()
 	clock = pygame.time.Clock()
+	game.onResize(size)
 	while isRunning:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
