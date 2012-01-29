@@ -6,32 +6,38 @@ import engine.snake
 import engine.mouse
 import random
 
-def renderHud(title):
-	fontName = pygame.font.get_default_font()
-	font = pygame.font.Font(fontName, 14)
-	colour = (0, 0, 255)
+class Hud:
+	def __init__(self, title):
+		fontName = pygame.font.get_default_font()
+		font = pygame.font.Font(fontName, 14)
+		colour = (0, 0, 255)
 
-	nameSurface = font.render(title, False, colour)
-	nameRect = nameSurface.get_rect()
-	authorSurface = font.render(', '.join(__AUTHORS__), False, colour)
-	authorsY = nameRect.y + nameRect.height + 5
-	authorsRect = authorSurface.get_rect()
-	authorsRect.y = authorsY
-	del authorsY
-	offset = 10
+		self.nameSurface = font.render(title, False, colour)
+		self.nameRect = self.nameSurface.get_rect()
+		self.authorSurface = font.render(', '.join(__AUTHORS__), False, colour)
+		authorsY = self.nameRect.y + self.nameRect.height + 5
+		self.authorsRect = self.authorSurface.get_rect()
+		self.authorsRect.y = authorsY
 
-	hudRect = (0, 0, 400, 38)
-	#hudBackground = pygame.Surface((400, 38))
-	#hudBackground.fill(
+		self.hudRect = (0, 0, 400, 38)
+		self.scoreFont = font = pygame.font.Font(fontName, 28)
 
-	def _renderHud(screen):
-		nameRect.x = screen.get_rect().width - nameRect.width - offset
-		authorsRect.x = screen.get_rect().width - authorsRect.width - offset
-		screen.fill( ( 38, 38, 38, 28), hudRect, pygame.BLEND_RGBA_ADD)
-		screen.blit(nameSurface, nameRect)
-		screen.blit(authorSurface, authorsRect)
+	# Could add an update method...
 
-	return _renderHud
+	def draw(self, screen, score):
+		offset = 10
+		self.nameRect.x = screen.get_rect().width - self.nameRect.width - offset
+		self.authorsRect.x = screen.get_rect().width - self.authorsRect.width - offset
+		screen.fill(
+			( 38, 38, 38, 28),
+			self.hudRect,
+			pygame.BLEND_RGBA_ADD)
+
+		scoreSurface = self.scoreFont.render('Score: %d' % score, False, (240,240,240))
+		# Could add some padding around the score.
+		screen.blit(scoreSurface, scoreSurface.get_rect())
+		screen.blit(self.nameSurface, self.nameRect)
+		screen.blit(self.authorSurface, self.authorsRect)
 
 class Game:
 	def __init__(self, title):
@@ -41,9 +47,8 @@ class Game:
 		self.rightPressed = False
 		self.screenSize = None
 		self.mice = []
-		
 
-		self.renderhud = renderHud(title)
+		self.hud = Hud(title)
 
 	def spawnMouse(self):
 		# TODO: Write some awesome here to figure out a good place to
@@ -103,4 +108,4 @@ class Game:
 			mouse.draw(screen)
 
 		# Render the heads up display
-		self.renderhud(screen)
+		self.hud.draw(screen, 0)
