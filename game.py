@@ -133,6 +133,9 @@ class Game:
 	def check_mice(self):
 		aliveMice = []
 		for mouse in self.mice:
+			if hasattr(mouse,"count"):
+				if mouse.count > 2000:
+					continue
 			# Test if its colliding with the nose of the snake.
 			if mouse.rect.collidepoint(self.player.mouth):
 				# TODO: Handle zombie mouse.

@@ -102,23 +102,18 @@ class MouseZombie(Mouse):
 
     def __init__(self, x, y):
         self.image = random.choice([self.Image1, self.Image2])
-        self.direction = 0
-        self.running = False
-        self.runDist = 0
+        self.direction = (math.pi/180)*(random.randrange(0,359))
+        self.count = 0
 
     def update(self):
-        if random.randint(0,150) == 1:
+        if random.randint(0,500) == 1:
             self.direction = (math.pi/180)*(random.randrange(0,359))
-            self.running = True
-        if self.running:
-            dx = int(5*math.cos(self.direction))
-            dy = int(5*math.sin(self.direction))
+        dx = int(3*math.cos(self.direction))
+        dy = int(3*math.sin(self.direction))
+        self.count += 1
+        if self.count % 10 == 1: 
             if self.x + dx > 50 and self.x +dx < 1024 - 50 :   #hard coded screen size
                 if self.y + dy > 50 and self.y +dy < 600 - 50 :   #hard coded screen size
                     self.x += dx
                     self.y += dy
-            self.runDist += 10
-            if self.runDist > 150:
-                self.running = False
-                self.runDist = 0
 
