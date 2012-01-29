@@ -104,14 +104,15 @@ class Game:
 			self.mouthTimeOut -= 1
 			if self.mouthTimeOut == 0:
 				self.player.mouthOpen = False
-		self.timeSinceSpawn += 1
-		if self.timeSinceSpawn == self.spawnTime:
+		if self.timeSinceSpawn >= self.spawnTime:
 			self.spawnMouse()
 			self.timeSinceSpawn = 0
-			if self.spawnTime > 50:
-				if random.randint(0,200) == 1:
-					self.spawnTime -= 1
-
+		if self.spawnTime > 10:
+			if random.randint(0,50) == 1:
+				self.spawnTime -= 1
+		print self.spawnTime
+		self.timeSinceSpawn += 1
+		print self.timeSinceSpawn,"bah"
 
 
 	def onRender(self, screen):
