@@ -96,16 +96,13 @@ class Snake:
 	def update(self, timeSinceLastUpdate):
 		dx = self.speed*math.cos(self.direction)
 		dy = self.speed*math.sin(self.direction)
-		print dx
-		print dy
-		self.x += int(dx)
-		self.y += int(dy)
 
+		self.x += int(math.floor(dx))
+		self.y += int(math.floor(dy))
 
 		jointCount = len(self.all_joints)
 		for i in xrange(0, jointCount - 1):
 			self.all_joints[i].setPosition(getPosition(self.all_joints[i+1], self.all_joints[i], Snake.SegmentDistance))
-
 
 		rotation =  (math.pi + math.atan2(
 			self.all_joints[jointCount-2].y -self.y ,
