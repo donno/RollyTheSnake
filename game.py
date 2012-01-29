@@ -103,7 +103,7 @@ class Game:
 		if self.player.mouthOpen and len(self.player.all_joints) > 5:
 			if self.player.tail.collidepoint(self.player.mouth):
 				
-				self.player.score += 9001
+				self.player.score += 901
 
 
 		if self.player.mouthOpen:
