@@ -40,7 +40,7 @@ def drawSnake(screen, snake):
 
 	x = head.x% screenRect.width
 	y = head.y% screenRect.height
-	snake.drawSnake.drawHead(screen, (x% screenRect.width, y% screenRect.height), head.rotation)
+	snake.drawSnake.drawHead(screen, (x% screenRect.width, y% screenRect.height), head.rotation, snake.mouthOpen)
 
 	# Disable this circle
 	#pygame.draw.circle(screen, (255, 0,0), (x%screenRect.width, y%screenRect.width), 10, 0)
@@ -78,6 +78,8 @@ class Snake:
 		# The score the snake has.
 		self.score = 0
 
+		self.mouthOpen = False
+
 	def new_segment(self):
 		self.all_joints.append(Joint(self.x, self.y, Snake.SegmentDistance))
 
@@ -89,9 +91,13 @@ class Snake:
 
 	def eat_mouse(self, safeToEat):
 		if safeToEat:
+			# You can't eat a mouse if your mouth is not open.
+			if not self.mouthOpen: return
 			self.new_segment()
 			self.score += 5
 		else:
+			# You still get damanged by zombie mouse reguardless if you had
+			# your mouth open or not.
 			self.remove_segment()
 			self.score -= 2
 

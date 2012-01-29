@@ -1,5 +1,4 @@
 import pygame
-
 import os.path
 
 def path(*args):
@@ -11,6 +10,7 @@ class DrawableSnake:
 	def __init__(self):
 		self.headImage = pygame.image.load(path('head.png'))
 		self.middleImage = pygame.image.load(path('middle.png'))
+		self.eaterImage = pygame.image.load(path('eater.png'))
 
 		self.headImages = {}
 		for degree in xrange(0, 360, 4):
@@ -20,6 +20,15 @@ class DrawableSnake:
 			elif degree > 270:
 				image = pygame.transform.flip(self.headImages[degree], True, False)
 				self.headImages[degree] = pygame.transform.rotate(image, degree )
+
+		self.eaterImages = {}
+		for degree in xrange(0, 360, 4):
+			self.eaterImages[degree] = pygame.transform.rotate(self.eaterImage, degree )
+			if degree < 90 or degree < 270:
+				self.eaterImages[degree] = pygame.transform.flip(self.eaterImages[degree], True, False)
+			elif degree > 270:
+				image = pygame.transform.flip(self.eaterImages[degree], True, False)
+				self.eaterImages[degree] = pygame.transform.rotate(image, degree )
 
 
 		self.middleImages = {}
@@ -31,11 +40,14 @@ class DrawableSnake:
 				self.middleImages[degree] = pygame.transform.flip(self.middleImages[degree], False, True)
 
 
-	def drawHead(self, screen, position, rotation):
+	def drawHead(self, screen, position, rotation, isEating):
 		rotation = int(rotation) -  int(rotation) % 4
 
-		image = self.headImages[rotation % 360]
-
+		if isEating:
+			image = self.eaterImages[rotation % 360]
+		else:
+			image = self.headImages[rotation % 360]
+		
 		imageRect = image.get_rect()
 		x, y = position
 		dest = pygame.Rect(x - imageRect.center[0], y - imageRect.center[1],

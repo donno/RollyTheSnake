@@ -77,6 +77,11 @@ class Game:
 			if event.key == pygame.K_s:
 				# Spawn a mouse
 				self.spawnMouse()
+			if event.key == pygame.K_SPACE:
+				# Open the snakes mouth.
+				if not self.player.mouthOpen:
+					self.player.mouthOpen = True
+					self.mouthTimeOut = 20
 		elif event.type == pygame.KEYUP:
 			if event.key == pygame.K_LEFT:
 				self.leftPressed = False
@@ -98,6 +103,11 @@ class Game:
 			mouse.update()
 
 		self.check_mice()
+
+		if self.player.mouthOpen:
+			self.mouthTimeOut -= 1
+			if self.mouthTimeOut == 0:
+				self.player.mouthOpen = False
 
 	def onRender(self, screen):
 		# Clear the whole screen
