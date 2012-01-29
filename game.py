@@ -120,7 +120,7 @@ class Game:
 			# Test if its colliding with the nose of the snake.
 			if mouse.rect.collidepoint(self.player.mouth):
 				# TODO: Handle zombie mouse.
-				self.player.eat_mouse(safeToEat=True)
+				self.player.eat_mouse(safeToEat=mouse.SafeToEat)
 			else:
 				# This mouse is still alive.
 				aliveMice.append(mouse)

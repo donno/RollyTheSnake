@@ -81,13 +81,19 @@ class Snake:
 	def new_segment(self):
 		self.all_joints.append(Joint(self.x, self.y, Snake.SegmentDistance))
 
+	def remove_segment(self):
+		if len(self.all_joints) == 2:
+			return # This should be a game over condition...
+
+		self.all_joints.pop()
+
 	def eat_mouse(self, safeToEat):
 		if safeToEat:
 			self.new_segment()
 			self.score += 5
 		else:
-			# loose a segment
-			pass
+			self.remove_segment()
+			self.score -= 2
 
 	def move(self, theta):
 		self.direction += theta
